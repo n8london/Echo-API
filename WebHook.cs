@@ -15,7 +15,7 @@ namespace GBelenky.WebHook
         }
 
         [Function("WebHook")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", "options")] HttpRequestData req)
         {
             //read payload into string
             string? payload = req.ReadAsString();
