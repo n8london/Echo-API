@@ -1,4 +1,4 @@
-POST http://localhost:7071/api/WebHook HTTP/1.1
+POST http://localhost:7071/api/Payload HTTP/1.1
 Accept: application/json
 
 {
@@ -6,6 +6,11 @@ Accept: application/json
     "name": "John Doe",
     "email": "
 }
+
+###
+
+GET http://localhost:7071/api/QueryString?parameterXYZ=1&parameterXYZ=2 HTTP/1.1
+Accept: application/json
 
 ###
 POST https://event-grid-demo-webhook.azurewebsites.net/api/WebHook HTTP/1.1
