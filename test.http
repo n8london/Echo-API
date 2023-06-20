@@ -8,6 +8,16 @@ Accept: application/json
 }
 
 ###
+POST http://localhost:7071/api/Echo HTTP/1.1
+Accept: application/json
 
+
+###
 GET http://localhost:7071/api/Echo?parameterXYZ=1&parameterXYZ=2 HTTP/1.1
 Accept: application/json
+
+
+###
+GET http://localhost:7071/api/Echo HTTP/1.1
+Accept: application/json
+

@@ -20,29 +20,31 @@ namespace GBelenky.WebHook
             // is it GET or POST request
             string? method = req.Method;
             _logger.LogInformation($"Method: {method}");
-            string? responseString = null;
+            string responseString = "No payload, no query string";
 
             if (method == "GET")
             {
                 string? query = req.Url.Query;
-                _logger.LogInformation($"Query string: {query}");
-                responseString = query;
+                if (!String.IsNullOrEmpty(query))
+                {
+                    responseString = query;
+                }
+                _logger.LogInformation($"Query string: {responseString}");
             }
             else
             {
-                //read payload into string
                 string? payload = req.ReadAsString();
-                _logger.LogInformation($"Event payload: {payload}");
-                responseString = payload;
+                if (!String.IsNullOrEmpty(payload))
+                {
+                    responseString = payload;
+                }
+                _logger.LogInformation($"Event payload: {responseString}");
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "application/json; charset=utf-8");
 
-            if (responseString != null)
-            {
-                response.WriteString(responseString);
-            }
+            response.WriteString(responseString);
 
             return response;
         }
