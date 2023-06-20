@@ -1,4 +1,4 @@
-POST http://localhost:7071/api/Payload HTTP/1.1
+POST http://localhost:7071/api/Echo HTTP/1.1
 Accept: application/json
 
 {
@@ -9,44 +9,5 @@ Accept: application/json
 
 ###
 
-GET http://localhost:7071/api/QueryString?parameterXYZ=1&parameterXYZ=2 HTTP/1.1
+GET http://localhost:7071/api/Echo?parameterXYZ=1&parameterXYZ=2 HTTP/1.1
 Accept: application/json
-
-###
-POST https://event-grid-demo-webhook.azurewebsites.net/api/WebHook HTTP/1.1
-Accept: application/json
-
-{
-    "id": "1234",
-    "name": "John Doe",
-    "email": "
-}
-
-
-###
-
-POST "https://rp-westeurope.eventgrid.azure.net:553/eventsubscriptions/storagesubscription/validate?id=D5956290-0730-4555-990D-E5C0C1DCD69D&t=2023-05-23T13:24:26.6534116Z&apiVersion=2021-10-15-preview&token=EWr3Y%2f7xwuFnPvd09r2L%2fcLIS2CYStsg0ni7%2fKNpA24%3d"
-{
-    "validationResponse": "D5956290-0730-4555-990D-E5C0C1DCD69D"
-}
-
-
-###
-POST https://event-grid-demo-webhook.azurewebsites.net/api/WebHook
-Accept: application/json
-
-
-[
-  {
-    "id": "2d1781af-3a4c-4d7c-bd0c-e34b19da4e66",
-    "topic": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "subject": "",
-    "data": {
-      "validationCode": "512d38b6-c7b8-40c8-89fe-f46f9e9622b6",
-    },
-    "eventType": "Microsoft.EventGrid.SubscriptionValidationEvent",
-    "eventTime": "2018-01-25T22:12:19.4556811Z",
-    "metadataVersion": "1",
-    "dataVersion": "1"
-  }
-]
