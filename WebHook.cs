@@ -14,8 +14,9 @@ namespace GBelenky.WebHook
             _logger = loggerFactory.CreateLogger<WebHook>();
         }
 
-        [Function("Payload")]
+        [Function("Echo")]
         public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+
         {
             //read payload into string
             string? payload = req.ReadAsString();
