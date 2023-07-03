@@ -1,2 +1,2 @@
-# event-grid-demo
-Implementing the Event Grid handshake for external consumers
+# Echo API
+being used for test scenarios 
