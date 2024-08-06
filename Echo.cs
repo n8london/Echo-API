@@ -1,52 +1,46 @@
-using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
-namespace GBelenky.WebHook
+
+namespace Company.Function
 {
     public class Echo
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<Echo> _logger;
 
-        public Echo(ILoggerFactory loggerFactory)
+        public Echo(ILogger<Echo> logger)
         {
-            _logger = loggerFactory.CreateLogger<Echo>();
+            _logger = logger;
         }
 
-        [Function("Echo")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", "get")] HttpRequestData req)
+        [Function("SendEchoRequest")]
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
-            // is it GET or POST request
-            string? method = req.Method;
-            _logger.LogInformation($"Method: {method}");
-            string responseString = "No payload, no query string";
-
-            if (method == "GET")
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
+        
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            
+            var requestBodyJson = JsonDocument.Parse("{}");
+            
+            if(!string.IsNullOrEmpty(requestBody))
             {
-                string? query = req.Url.Query;
-                if (!String.IsNullOrEmpty(query))
-                {
-                    responseString = query;
-                }
-                _logger.LogInformation($"Query string: {responseString}");
-            }
-            else
-            {
-                string? payload = req.ReadAsString();
-                if (!String.IsNullOrEmpty(payload))
-                {
-                    responseString = payload;
-                }
-                _logger.LogInformation($"Event payload: {responseString}");
+                requestBodyJson = JsonDocument.Parse(requestBody);
             }
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+            string requestHeaders = req.Headers?.ToString() ?? string.Empty;
 
-            response.WriteString(responseString);
+            // Get all query parameters
+            var queryParameters = req.Query.ToDictionary(x => x.Key, x => x.Value.ToString());
 
-            return response;
+            return new OkObjectResult(new
+            {
+                RequestBody = requestBodyJson,
+                RequestHeaders = requestHeaders,
+                QueryParameters = queryParameters
+            });
         }
     }
 }
